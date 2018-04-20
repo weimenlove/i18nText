@@ -1,27 +1,32 @@
 #include "include/i18nText.h"
+#include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
+
+using namespace cv;
+using namespace std;
 
 int main(int argc, char **argv) {
     try {
-        cv::Mat test(150, 400, CV_8UC3, CV_RGB(0, 255, 0));
-        cv::namedWindow("test", CV_WINDOW_NORMAL);
+        vector<int> compression_params;
+
+        Mat image = imread(argv[1], -1);   // Read the file
+        //namedWindow("test", CV_WINDOW_NORMAL);
         i18nText i18n;
-        if (i18n.setFont("/usr/share/fonts/truetype/wqy/wqy-microhei.ttc")) {
-          std::cout << "Load fonts successfully." << std::endl;
-    
-          const wchar_t *msg = L"汉字 iw0ol1 ニホンゴ";
-          std::cout << "Put ";
-          int num = i18n.putText(test, msg, cv::Point(25, 50), CV_RGB(0, 0, 255));
-          std::cout << num << " chars." << std::endl;
-    
-          const wchar_t *msg2 = L"조선말／朝鮮말，한국어／韓國語";
-          std::cout << "Put another ";
-          num = i18n.putText(test, msg2, cv::Point(25, 100), CV_RGB(255, 0, 0));
-          std::cout << num << " chars." << std::endl;
-          imshow("text", test);
-          cvWaitKey(0);
+        if (i18n.setFont("simsun.ttc")) {
+          cout << "Load fonts successfully." << endl;
+          const wchar_t *msg = L"2018-04-20 16:25:25 抓拍图片";
+          cout << "Put ";
+          int num = i18n.putText(image, msg, Point(25, 50), CV_RGB(255, 0, 0));
+          cout << num << " chars." << endl;
+
+          //imshow("text", image);
+          //cvWaitKey(0);
+          compression_params.push_back(CV_IMWRITE_JPEG_QUALITY);
+          compression_params.push_back(37);
+          imwrite("test.jpg", image, compression_params);
         }
-    } catch (cv::Exception e) {
-        std::cout << e.what() << std::endl;
+    } catch (Exception e) {
+        cout << e.what() << endl;
     }
     return 0;
 }

@@ -11,7 +11,7 @@ int i18nText::counter = 0;
 FT_Library i18nText::library;
 
 i18nText::i18nText() {
-    size.pixelSize = 25;
+    size.pixelSize = 55;
     size.space = 0.5;
     size.gap = 0.1;
     ++counter;
